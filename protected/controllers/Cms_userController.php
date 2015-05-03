@@ -49,17 +49,17 @@ class Cms_userController extends Controller
 
 	public function actionCreate()
 	{
-		$model=new UserCms;
+		$model=new Users;
 
 		// Uncomment the following line if AJAX validation is needed
 		 $this->performAjaxValidation($model);
 
-		if(isset($_POST['UserCms']))
+		if(isset($_POST['Users']))
 		{
-			$model->attributes=$_POST['UserCms'];
+			$model->attributes=$_POST['Users'];
 
 			$acak=$model->generateSalt();
-			$model->password=$model->hashPassword($_POST['UserCms']['password'],$acak);
+			$model->password=$model->hashPassword($_POST['Users']['password'],$acak);
 
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
@@ -77,14 +77,14 @@ class Cms_userController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		 $this->performAjaxValidation($model);
 
-		if(isset($_POST['UserCms']))
+		if(isset($_POST['Users']))
 		{
-			$model->attributes=$_POST['UserCms'];
+			$model->attributes=$_POST['Users'];
 
-			if(!empty($_POST['UserCms']['password']))
+			if(!empty($_POST['Users']['password']))
 			{
 				$acak=$model->generateSalt();
-				$model->password=$model->hashPassword($_POST['UserCms']['password'],$acak);
+				$model->password=$model->hashPassword($_POST['Users']['password'],$acak);
 			}
 
 			if($model->save())
@@ -107,10 +107,10 @@ class Cms_userController extends Controller
 
 	public function actionIndex()
 	{
-		$model=new UserCms('search');
+		$model=new Users('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['UserCms']))
-			$model->attributes=$_GET['UserCms'];
+		if(isset($_GET['Users']))
+			$model->attributes=$_GET['Users'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -121,12 +121,12 @@ class Cms_userController extends Controller
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return UserCms the loaded model
+	 * @return Users the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model=UserCms::model()->findByPk($id);
+		$model=Users::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -134,7 +134,7 @@ class Cms_userController extends Controller
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param UserCms $model the model to be validated
+	 * @param Users $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{

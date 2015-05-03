@@ -1,32 +1,48 @@
-<div class="well">
-    <div class="row">
-    <div class="span">
-      <h3><?php echo $GLOBALS['site_title']; ?></h3>
-      <p><?php echo $GLOBALS['site_quotes']; ?></p>
-    </div>
-    </div>
-  </div>
+<?php
+/* @var $this Cms_pegawaiController */
+/* @var $model Pegawai */
 
-  <div class="well">
-  <div class="navbar navbar-inverse">
-    <div class="navbar-inner">
-    <div class="container">
-      <a class="brand" href="#">Manage Users</a>
-      <div class="nav-collapse">
-      <ul class="nav">
-        <li><a href="<?php echo Yii::app()->baseUrl; ?>/cms_user/create"><i class="icon-plus-sign icon-white"></i> Add New</a></li>
-      </ul>
-      </div>
-    <div class="span6 pull-right">
-		<?php $this->renderPartial('_search',array(
-			'model'=>$model,
-		)); ?>
-    </div>
-    </div>
-    </div><!-- /navbar-inner -->
-  </div><!-- /navbar -->
-  
-    <section>
+$this->breadcrumbs=array(
+	'Pegawai'=>array('index'),
+	'Manage',
+);
+
+$this->menu=array(
+	array('label'=>'Data Pegawai', 'url'=>array('index')),
+	array('label'=>'Tambah Pegawai', 'url'=>array('create')),
+);
+
+Yii::app()->clientScript->registerScript('search', "
+$('.search-button').click(function(){
+	$('.search-form').toggle();
+	return false;
+});
+$('.search-form form').submit(function(){
+	$('#pegawai-grid').yiiGridView('update', {
+		data: $(this).serialize()
+	});
+	return false;
+});
+");
+?>
+
+<h3>Data Pegawai</h3>
+
+
+
+<div class="search-form" style="display:none">
+<?php $this->renderPartial('_search',array(
+	'model'=>$model,
+)); ?>
+</div><!-- search-form -->
+
+<div class="portlet">
+<div class="portlet-decoration">
+<div class="portlet-title">
+<?php echo CHtml::link('<i class=\'icon icon-white icon-search\'></i> Advanced Search','#',array('class'=>'search-button btn btn-sm btn-primary')); ?></div>
+</div>
+<div class="portlet-content">
+
 <?php
 
 Yii::app()->clientScript->registerScript('search', "
@@ -46,7 +62,7 @@ $('.search-form form').submit(function(){
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'user-cms-grid',
 	'dataProvider'=>$model->search(),
-	'filter'=>$model,
+	'itemsCssClass'=>'table table-hover table-striped table-bordered table-condensed',
     'pager' => array('cssFile' => Yii::app()->theme->baseUrl.'/css/gridView.css'),
 	'columns'=>array(
 	     array(
@@ -63,5 +79,5 @@ $('.search-form form').submit(function(){
 		),
 	),
 )); ?>
-    </section>
-</div>
+
+</div></div>
